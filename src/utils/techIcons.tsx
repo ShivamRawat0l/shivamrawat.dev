@@ -1,15 +1,20 @@
 import type { IconType } from 'react-icons';
 import { FaCode, FaMapMarkedAlt } from 'react-icons/fa';
 import {
+	SiC,
 	SiCanvas,
 	SiFirebase,
 	SiGithub,
 	SiGraphql,
+	SiHtml5,
 	SiJavascript,
 	SiKotlin,
+	SiGnubash,
 	SiNodedotjs,
 	SiNpm,
+	SiPython,
 	SiReact,
+	SiRust,
 	SiSocketdotio,
 	SiSwift,
 	SiTwilio,
@@ -40,6 +45,14 @@ const iconMap: Record<string, IconType> = {
 	Kotlin: SiKotlin,
 	GitHub: SiGithub,
 	npm: SiNpm,
+	Rust: SiRust,
+	Python: SiPython,
+	HTML: SiHtml5,
+	C: SiC,
+	Shell: SiGnubash,
+	Algorithms: FaCode,
+	Embedded: FaCode,
+	'Web Scraping': FaCode,
 };
 
 export function getTechIcon(name: string): IconType {

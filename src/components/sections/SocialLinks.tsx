@@ -1,9 +1,11 @@
 import { FaEnvelope, FaGithub, FaLinkedin, FaMedium } from 'react-icons/fa';
+import { SiLeetcode } from 'react-icons/si';
 import type { SocialLink } from '../../types/portfolio';
 
 const iconMap = {
 	GitHub: FaGithub,
 	LinkedIn: FaLinkedin,
+	LeetCode: SiLeetcode,
 	Medium: FaMedium,
 	Email: FaEnvelope,
 };

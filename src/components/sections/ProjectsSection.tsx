@@ -9,19 +9,27 @@ type ProjectsSectionProps = {
 };
 
 export function ProjectsSection({ items }: ProjectsSectionProps) {
+	const lastRowStart = Math.floor((items.length - 1) / 2) * 2;
 	return (
 		<Section id="projects" title="Professional Projects" subtitle="Impact-driven builds shipped for products and users at scale.">
 			<div className="stack-grid">
 				{items.map((item, index) => (
 					<motion.article
 						key={item.title}
-						className="project-card"
+						className={`project-card${index >= lastRowStart ? ' project-card--last-row' : ''}`}
 						initial={{ opacity: 0, y: 24 }}
 						whileInView={{ opacity: 1, y: 0 }}
 						viewport={{ once: true, amount: 0.22 }}
 						transition={{ delay: index * 0.06 }}>
 						<h3>✦ {item.title}</h3>
 						<p className="muted">◆ {item.description}</p>
+						{item.points?.length ? (
+							<ul className="symbol-list project-points">
+								{item.points.map((point) => (
+									<li key={point}>{point}</li>
+								))}
+							</ul>
+						) : null}
 						<div className="tags">
 							{item.stack.map((stack) => {
 								const Icon = getTechIcon(stack);

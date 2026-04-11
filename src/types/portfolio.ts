@@ -13,6 +13,8 @@ export type Experience = {
 export type Project = {
 	title: string;
 	description: string;
+	/** Resume-style bullets (shown for professional projects on the site). */
+	points?: string[];
 	stack: string[];
 	links?: ProjectLink[];
 	image?: string;

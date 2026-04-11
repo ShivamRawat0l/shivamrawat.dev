@@ -5,10 +5,16 @@
 	--text: #381932;
 	--text-muted: #6f4f67;
 	--border: #e2cfbc;
+	/* Rules between blocks + card strokes (same as Education & Contact) */
+	--divider: var(--border);
 	--radius: 16px;
 	--radius-sm: 10px;
 	--shadow: 0 10px 24px rgba(56, 25, 50, 0.08);
 	--max-width: 1024px;
+	/* Layout: one gutter scale for horizontal rhythm + vertical section rhythm */
+	--page-gutter: clamp(1rem, 4.5vw, 1.75rem);
+	--section-gap: clamp(1.25rem, 3.5vw, 1.5rem);
+	--section-pad-y: clamp(1.5rem, 4vw, 2rem);
 	--space-1: 8px;
 	--space-2: 12px;
 	--space-3: 16px;

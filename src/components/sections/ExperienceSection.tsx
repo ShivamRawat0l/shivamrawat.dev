@@ -7,12 +7,13 @@ type ExperienceSectionProps = {
 };
 
 export function ExperienceSection({ items }: ExperienceSectionProps) {
+	const lastRowStart = Math.floor((items.length - 1) / 2) * 2;
 	return (
 		<Section id="experience" title="Experience" subtitle="Senior-level delivery across internships and full-time ownership.">
 			<div className="stack-grid">
 				{items.map((item, index) => (
 					<motion.article
-						className="experience-item"
+						className={`experience-item${index >= lastRowStart ? ' experience-item--last-row' : ''}`}
 						key={`${item.company}-${item.role}`}
 						initial={{ opacity: 0, y: 28 }}
 						whileInView={{ opacity: 1, y: 0 }}
