@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { motion } from 'motion/react';
 import { Section } from '../layout/Section';
 import type { Education } from '../../types/portfolio';
 
@@ -13,19 +12,15 @@ export function EducationSection({ items }: EducationSectionProps) {
 	return (
 		<Section id="education" title="Education" subtitle="Academic foundation in engineering, built on strong fundamentals and consistent performance.">
 			<div className="education-grid">
-				{items.map((item, index) => {
+				{items.map((item) => {
 					const key = `${item.level}-${item.year}`;
 					const isActive = active === key;
 					return (
-						<motion.button
+						<button
 							type="button"
 							key={key}
 							className="edu-card repel-card"
-							onClick={() => setActive(isActive ? null : key)}
-							initial={{ opacity: 0, y: 20 }}
-							whileInView={{ opacity: 1, y: 0 }}
-							viewport={{ once: true }}
-							transition={{ delay: index * 0.08 }}>
+							onClick={() => setActive(isActive ? null : key)}>
 							<div className={`edu-inner ${isActive ? 'is-rotated' : ''}`}>
 								<div className="edu-face">
 									<p>◆ {item.level}</p>
@@ -36,7 +31,7 @@ export function EducationSection({ items }: EducationSectionProps) {
 									<p>◆ Year: {item.year}</p>
 								</div>
 							</div>
-						</motion.button>
+						</button>
 					);
 				})}
 			</div>

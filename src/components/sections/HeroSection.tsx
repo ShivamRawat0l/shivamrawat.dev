@@ -66,14 +66,37 @@ export function HeroSection({ links }: HeroSectionProps) {
 				transition={{ delay: 0.2 }}
 				onMouseMove={handleMouseMove}
 				onMouseLeave={() => setRepel({ x: 0, y: 0, rx: 0, ry: 0 })}>
-				<motion.img
-					src="https://github.com/ShivamRawat0l.png"
-					alt="Shivam Rawat"
-					className="hero-image"
-					style={{ transformPerspective: 900 }}
-					animate={{ x: repel.x, y: repel.y, rotateX: repel.rx, rotateY: repel.ry }}
-					transition={{ type: 'spring', stiffness: 260, damping: 18 }}
-				/>
+				<div className="hero-image-plate">
+					<div className="hero-image-stack">
+						<motion.div
+							className="hero-image-motion"
+							style={{ transformPerspective: 900 }}
+							animate={{ x: repel.x, y: repel.y, rotateX: repel.rx, rotateY: repel.ry }}
+							transition={{ type: 'spring', stiffness: 260, damping: 18 }}>
+							<img
+								className="hero-image"
+								src="https://github.com/ShivamRawat0l.png"
+								alt="Shivam Rawat"
+							/>
+						</motion.div>
+						<motion.div
+							className="hero-image-corners"
+							aria-hidden
+							style={{ transformPerspective: 900 }}
+							animate={{
+								x: -repel.x,
+								y: -repel.y,
+								rotateX: -repel.rx,
+								rotateY: -repel.ry,
+							}}
+							transition={{ type: 'spring', stiffness: 260, damping: 18 }}>
+							<span className="hero-corner hero-corner--tl" />
+							<span className="hero-corner hero-corner--tr" />
+							<span className="hero-corner hero-corner--bl" />
+							<span className="hero-corner hero-corner--br" />
+						</motion.div>
+					</div>
+				</div>
 				<a className="chip-link" href="https://github.com/ShivamRawat0l/" target="_blank" rel="noreferrer">
 					<FaGithub />
 					<span>◆ github.com/ShivamRawat0l</span>

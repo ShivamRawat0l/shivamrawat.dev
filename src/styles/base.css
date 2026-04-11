@@ -9,17 +9,11 @@ body,
 	min-height: 100%;
 }
 
-/* Section jumps are driven by `useSectionSnap` (wheel threshold), not scroll-snap here. */
+/* Wheel-driven section jumps: `useSectionSnap` on `.page-section`. */
 html {
 	scrollbar-gutter: stable;
 	overflow-x: clip;
 	scroll-behavior: auto;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-	html {
-		scroll-behavior: smooth;
-	}
 }
 
 body {

@@ -1,4 +1,3 @@
-import { motion } from 'motion/react';
 import { Section } from '../layout/Section';
 import type { Experience } from '../../types/portfolio';
 
@@ -12,13 +11,9 @@ export function ExperienceSection({ items }: ExperienceSectionProps) {
 		<Section id="experience" title="Experience" subtitle="Senior-level delivery across internships and full-time ownership.">
 			<div className="stack-grid">
 				{items.map((item, index) => (
-					<motion.article
+					<article
 						className={`experience-item${index >= lastRowStart ? ' experience-item--last-row' : ''}`}
-						key={`${item.company}-${item.role}`}
-						initial={{ opacity: 0, y: 28 }}
-						whileInView={{ opacity: 1, y: 0 }}
-						viewport={{ once: true, amount: 0.2 }}
-						transition={{ delay: index * 0.08 }}>
+						key={`${item.company}-${item.role}`}>
 						<div className="row-between">
 							<h3 className="experience-role">{item.role}</h3>
 							<span className="pill">◆ {item.duration}</span>
@@ -29,7 +24,7 @@ export function ExperienceSection({ items }: ExperienceSectionProps) {
 								<li key={point}>{point}</li>
 							))}
 						</ul>
-					</motion.article>
+					</article>
 				))}
 			</div>
 		</Section>

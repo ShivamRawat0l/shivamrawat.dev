@@ -1,4 +1,3 @@
-import { motion } from 'motion/react';
 import { FaGithub } from 'react-icons/fa';
 import { Section } from '../layout/Section';
 import type { Project } from '../../types/portfolio';
@@ -9,18 +8,11 @@ type PersonalProjectsSectionProps = {
 };
 
 export function PersonalProjectsSection({ items }: PersonalProjectsSectionProps) {
-	const lastRowStart = Math.floor((items.length - 1) / 2) * 2;
 	return (
 		<Section id="personal-projects" title="Personal Projects" subtitle="Side projects and libraries focused on experimentation and developer tools.">
-			<div className="stack-grid">
-				{items.map((item, index) => (
-					<motion.article
-						key={item.title}
-						className={`project-card${index >= lastRowStart ? ' project-card--last-row' : ''}`}
-						initial={{ opacity: 0, y: 24 }}
-						whileInView={{ opacity: 1, y: 0 }}
-						viewport={{ once: true, amount: 0.22 }}
-						transition={{ delay: index * 0.06 }}>
+			<div className="stack-grid stack-grid--single">
+				{items.map((item) => (
+					<article key={item.title} className="project-card">
 						<h3>✦ {item.title}</h3>
 						<p className="muted">◆ {item.description}</p>
 						{item.points?.length ? (
@@ -48,7 +40,7 @@ export function PersonalProjectsSection({ items }: PersonalProjectsSectionProps)
 								<span>◆ View GitHub Project</span>
 							</a>
 						) : null}
-					</motion.article>
+					</article>
 				))}
 			</div>
 		</Section>

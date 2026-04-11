@@ -51,11 +51,10 @@
 }
 
 .section-header {
-	display: grid;
-	gap: var(--space-2);
 	position: sticky;
 	top: 0;
 	z-index: 4;
+	overflow: hidden;
 	overflow-wrap: break-word;
 	box-sizing: border-box;
 	width: 100dvw;
@@ -64,27 +63,42 @@
 	margin-bottom: var(--space-5);
 	margin-inline: calc(50% - 50dvw);
 	padding-block: var(--space-4);
-	padding-left: max(var(--space-4), var(--page-gutter), env(safe-area-inset-left, 0px));
-	padding-right: max(var(--space-4), var(--page-gutter), env(safe-area-inset-right, 0px));
+	padding-inline: 0;
 	background:
 		repeating-linear-gradient(135deg, rgba(255, 243, 230, 0.08) 0 2px, transparent 2px 6px),
 		linear-gradient(180deg, color-mix(in srgb, var(--text) 94%, #000), var(--text));
 	color: var(--bg);
 	border: 0;
 	border-radius: 0;
-	text-align: center;
 	box-shadow: 0 1px 0 var(--divider);
+}
+
+/* Same horizontal column as `main.container` so titles line up with body copy (e.g. project names). */
+.section-header-inner {
+	width: 100%;
+	max-width: var(--max-width);
+	margin-inline: auto;
+	box-sizing: border-box;
+	padding-inline: max(var(--page-gutter), env(safe-area-inset-left, 0px)) max(var(--page-gutter), env(safe-area-inset-right, 0px));
+	display: grid;
+	gap: var(--space-2);
+	justify-items: start;
+	text-align: start;
 }
 
 .section-header h2 {
 	color: var(--bg);
 	margin: 0;
+	font-size: var(--fs-h2);
+	line-height: 1.12;
 }
 
-.section-header p {
+.section-header-subtitle,
+.section-header p.section-header-subtitle {
 	color: var(--bg);
 	opacity: 0.88;
 	margin: 0;
+	max-height: none;
 }
 
 .stack-grid {
@@ -104,13 +118,32 @@
 	.stack-grid {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
+
+	/* Professional / personal projects: one card per row */
+	.stack-grid--single {
+		grid-template-columns: minmax(0, 1fr);
+	}
 }
 
-/* 100vw + single margin desyncs with scrollbar / resize; dvw tracks dynamic viewport better. */
+/* Full-bleed strip: desktop / tablet */
 @supports not (width: 100dvw) {
 	.section-header {
 		width: 100vw;
 		max-width: 100vw;
 		margin-inline: calc(50% - 50vw);
+	}
+}
+
+/* Mobile: same full-viewport strip as desktop (break out of main column) */
+@media (max-width: 860px) {
+	.section-header {
+		width: 100dvw;
+		max-width: 100dvw;
+		margin-inline: calc(50% - 50dvw);
+		box-sizing: border-box;
+	}
+
+	.section-header h2 {
+		margin: 0;
 	}
 }

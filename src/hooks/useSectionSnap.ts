@@ -1,8 +1,20 @@
 import { useEffect, useRef } from 'react';
 
-/** Accumulated wheel delta before moving to the next/previous section. */
-const WHEEL_THRESHOLD = 120;
+/** Wheel delta (px) to accumulate before snapping to the next/previous section. */
+const SNAP_THRESHOLD = 120;
 const SECTION_EDGE_SLACK = 12;
+const ACCUM_CAP = 280;
+
+/** Positive = user scrolled “down” the page (content moves up) → next section. Negative → previous. */
+function effectiveWheelDeltaY(event: WheelEvent): number {
+	let dy = wheelDeltaY(event);
+	const extended = event as WheelEvent & { webkitDirectionInvertedFromDevice?: boolean };
+	if (extended.webkitDirectionInvertedFromDevice) {
+		dy = -dy;
+	}
+	return dy;
+}
+
 function canScrollWithinNestedTarget(target: EventTarget | null, deltaY: number): boolean {
 	if (!(target instanceof HTMLElement)) {
 		return false;
@@ -35,7 +47,6 @@ function sectionDocBounds(el: HTMLElement) {
 	return { top: y + r.top, bottom: y + r.bottom };
 }
 
-/** Window can still scroll within this section (content extends past the viewport edge). */
 function canScrollInsideSection(section: HTMLElement, deltaY: number): boolean {
 	const { top, bottom } = sectionDocBounds(section);
 	const viewTop = window.scrollY;
@@ -74,23 +85,48 @@ function wheelDeltaY(event: WheelEvent): number {
 }
 
 /**
- * Wheel: scroll inside the current section first; at the edge, accumulate delta past a
- * threshold then move to the adjacent section. Uses `behavior: 'auto'` so `html`’s
- * `scroll-behavior` controls smoothing (no long JS smooth scroll fighting the wheel).
+ * Wheel: scroll inside a tall `.page-section` first; at the edge, pass a threshold then
+ * jump: accumulated delta down the page (positive) goes to the next section; negative to the previous.
  */
 export function useSectionSnap() {
 	const accumRef = useRef(0);
+	const pendingTargetRef = useRef<number | null>(null);
+	const rafIdRef = useRef<number | null>(null);
 
 	useEffect(() => {
 		const sectionsEls = () => Array.from(document.querySelectorAll<HTMLElement>('.page-section'));
+
+		const flushJump = () => {
+			rafIdRef.current = null;
+			const target = pendingTargetRef.current;
+			pendingTargetRef.current = null;
+			if (target === null) {
+				return;
+			}
+			const sections = sectionsEls();
+			const el = sections[target];
+			if (!el) {
+				return;
+			}
+			window.scrollTo({ top: sectionDocTop(el), left: 0, behavior: 'instant' });
+		};
+
+		const scheduleJump = (targetIndex: number) => {
+			pendingTargetRef.current = targetIndex;
+			if (rafIdRef.current !== null) {
+				return;
+			}
+			rafIdRef.current = requestAnimationFrame(flushJump);
+		};
 
 		const onWheel = (event: WheelEvent) => {
 			if (event.ctrlKey || event.metaKey) {
 				return;
 			}
 
+			const dy0 = effectiveWheelDeltaY(event);
 			const sections = sectionsEls();
-			if (!sections.length || canScrollWithinNestedTarget(event.target, event.deltaY)) {
+			if (!sections.length || canScrollWithinNestedTarget(event.target, dy0)) {
 				return;
 			}
 
@@ -101,36 +137,55 @@ export function useSectionSnap() {
 				return;
 			}
 
-			if (canScrollInsideSection(section, event.deltaY)) {
+			if (canScrollInsideSection(section, dy0)) {
 				accumRef.current = 0;
+				pendingTargetRef.current = null;
 				return;
 			}
 
-			const dir = event.deltaY > 0 ? 1 : -1;
-			const next = Math.max(0, Math.min(sections.length - 1, active + dir));
-			if (next === active) {
+			if (dy0 === 0) {
+				return;
+			}
+
+			/** +1 = toward next section, -1 = toward previous */
+			const step = dy0 > 0 ? 1 : -1;
+			const tentativeNext = Math.max(0, Math.min(sections.length - 1, active + step));
+			if (tentativeNext === active) {
 				accumRef.current = 0;
+				pendingTargetRef.current = null;
 				return;
 			}
 
 			event.preventDefault();
 
-			const dy = wheelDeltaY(event);
-			const sign = Math.sign(dy);
+			const sign = Math.sign(dy0) as -1 | 1;
 			if (accumRef.current !== 0 && Math.sign(accumRef.current) !== sign) {
 				accumRef.current = 0;
 			}
-			accumRef.current += dy;
+			accumRef.current += dy0;
+			accumRef.current = Math.max(-ACCUM_CAP, Math.min(ACCUM_CAP, accumRef.current));
 
-			if (Math.abs(accumRef.current) < WHEEL_THRESHOLD) {
+			if (Math.abs(accumRef.current) < SNAP_THRESHOLD) {
 				return;
 			}
 
+			const jumpStep = accumRef.current > 0 ? 1 : -1;
 			accumRef.current = 0;
-			window.scrollTo({ top: sectionDocTop(sections[next]), left: 0, behavior: 'auto' });
+			const target = Math.max(0, Math.min(sections.length - 1, active + jumpStep));
+			if (target === active) {
+				return;
+			}
+			scheduleJump(target);
 		};
 
 		window.addEventListener('wheel', onWheel, { passive: false });
-		return () => window.removeEventListener('wheel', onWheel);
+		return () => {
+			window.removeEventListener('wheel', onWheel);
+			if (rafIdRef.current !== null) {
+				cancelAnimationFrame(rafIdRef.current);
+				rafIdRef.current = null;
+			}
+			pendingTargetRef.current = null;
+		};
 	}, []);
 }

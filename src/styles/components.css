@@ -86,16 +86,88 @@
 	justify-items: center;
 }
 
-.hero-image {
+.hero-image-plate {
 	width: min(320px, 62vw);
+	box-sizing: border-box;
+}
+
+.hero-image-stack {
+	position: relative;
 	aspect-ratio: 1;
+	width: 100%;
+	isolation: isolate;
+}
+
+.hero-image-motion {
+	width: 100%;
+	height: 100%;
+	transform-style: preserve-3d;
+	will-change: transform;
+}
+
+.hero-image {
+	display: block;
+	width: 100%;
+	height: 100%;
 	object-fit: cover;
-	border-radius: 24px;
-	border: 3px solid var(--divider);
+	border-radius: 20px;
+	border: none;
 	box-shadow: var(--shadow);
 	user-select: none;
 	-webkit-user-select: none;
 	-webkit-user-drag: none;
+}
+
+/* Corner brackets only; layer moves inverse to .hero-image-motion (see HeroSection). */
+.hero-image-corners {
+	position: absolute;
+	inset: 0;
+	z-index: 2;
+	pointer-events: none;
+	transform-style: preserve-3d;
+	will-change: transform;
+}
+
+.hero-corner {
+	position: absolute;
+	width: 1.75rem;
+	height: 1.75rem;
+	border-color: color-mix(in srgb, var(--text) 88%, transparent);
+	border-style: solid;
+	border-width: 0;
+	box-sizing: border-box;
+}
+
+.hero-corner--tl {
+	top: 0.4rem;
+	left: 0.4rem;
+	border-top-width: 2px;
+	border-left-width: 2px;
+	border-top-left-radius: 3px;
+}
+
+.hero-corner--tr {
+	top: 0.4rem;
+	right: 0.4rem;
+	border-top-width: 2px;
+	border-right-width: 2px;
+	border-top-right-radius: 3px;
+}
+
+.hero-corner--bl {
+	bottom: 0.4rem;
+	left: 0.4rem;
+	border-bottom-width: 2px;
+	border-left-width: 2px;
+	border-bottom-left-radius: 3px;
+}
+
+.hero-corner--br {
+	bottom: 0.4rem;
+	right: 0.4rem;
+	border-bottom-width: 2px;
+	border-right-width: 2px;
+	border-bottom-right-radius: 3px;
 }
 
 .hero-copy {
@@ -258,6 +330,7 @@
 #projects .project-card h3,
 #personal-projects .project-card h3 {
 	color: #000;
+	margin-bottom: var(--space-4);
 }
 
 #projects .project-card > p.muted,
@@ -265,6 +338,7 @@
 	font-weight: 300;
 	color: #000;
 	opacity: 1;
+	margin-bottom: var(--space-4);
 }
 
 #projects .project-card .project-points li,
@@ -293,18 +367,9 @@
 	align-self: flex-start;
 }
 
-/* Single column: no rule under the final card */
-@media (max-width: 839px) {
-	.stack-grid .project-card:last-child {
-		border-bottom: none;
-	}
-}
-
-/* Two columns: no rule under the last row (one or two cards) */
-@media (min-width: 840px) {
-	.stack-grid .project-card.project-card--last-row {
-		border-bottom: none;
-	}
+/* Single-column project lists: no rule under the final card */
+.stack-grid--single .project-card:last-child {
+	border-bottom: none;
 }
 
 .skills-list {
@@ -485,7 +550,7 @@
 		margin-inline: auto;
 	}
 
-	.page-section-hero .hero-image {
+	.page-section-hero .hero-image-plate {
 		width: min(240px, 70vw);
 	}
 
@@ -514,6 +579,22 @@
 
 	.project-card h3 {
 		line-height: 1.2;
+	}
+
+	.experience-role {
+		margin: 0;
+	}
+
+	.footer-education-card h3 {
+		margin: 0;
+	}
+
+	.hero-name {
+		margin: 0;
+	}
+
+	.edu-face h3 {
+		margin: 0;
 	}
 }
 
