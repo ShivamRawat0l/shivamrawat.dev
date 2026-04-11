@@ -96,11 +96,15 @@
 	aspect-ratio: 1;
 	width: 100%;
 	isolation: isolate;
+	border-radius: var(--radius);
+	overflow: hidden;
+	box-shadow: var(--shadow);
 }
 
 .hero-image-motion {
 	width: 100%;
 	height: 100%;
+	border-radius: inherit;
 	transform-style: preserve-3d;
 	will-change: transform;
 }
@@ -110,9 +114,9 @@
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
-	border-radius: 20px;
+	border-radius: inherit;
 	border: none;
-	box-shadow: var(--shadow);
+	box-shadow: none;
 	user-select: none;
 	-webkit-user-select: none;
 	-webkit-user-drag: none;
@@ -139,35 +143,35 @@
 }
 
 .hero-corner--tl {
-	top: 0.4rem;
-	left: 0.4rem;
+	top: 0.55rem;
+	left: 0.55rem;
 	border-top-width: 2px;
 	border-left-width: 2px;
-	border-top-left-radius: 3px;
+	border-top-left-radius: 10px;
 }
 
 .hero-corner--tr {
-	top: 0.4rem;
-	right: 0.4rem;
+	top: 0.55rem;
+	right: 0.55rem;
 	border-top-width: 2px;
 	border-right-width: 2px;
-	border-top-right-radius: 3px;
+	border-top-right-radius: 10px;
 }
 
 .hero-corner--bl {
-	bottom: 0.4rem;
-	left: 0.4rem;
+	bottom: 0.55rem;
+	left: 0.55rem;
 	border-bottom-width: 2px;
 	border-left-width: 2px;
-	border-bottom-left-radius: 3px;
+	border-bottom-left-radius: 10px;
 }
 
 .hero-corner--br {
-	bottom: 0.4rem;
-	right: 0.4rem;
+	bottom: 0.55rem;
+	right: 0.55rem;
 	border-bottom-width: 2px;
 	border-right-width: 2px;
-	border-bottom-right-radius: 3px;
+	border-bottom-right-radius: 10px;
 }
 
 .hero-copy {
@@ -242,9 +246,17 @@
 
 .symbol-list {
 	padding-left: 0;
+	margin: 0;
 	list-style: none;
-	display: grid;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
 	gap: var(--space-2);
+}
+
+/* Resume-style bullets: a bit more air between rows than experience blurbs. */
+.symbol-list.project-points {
+	gap: var(--space-3);
 }
 
 .experience-item {
@@ -280,17 +292,30 @@
 	opacity: 1;
 }
 
+.experience-item .symbol-list {
+	margin-top: var(--space-3);
+}
+
 .symbol-list li::before {
-	content: '◆ ';
+	content: '◆';
 	color: var(--text-muted);
+	flex-shrink: 0;
+	line-height: 1.4;
+	margin-top: 0.2em;
 }
 
 .symbol-list li {
+	display: flex;
+	align-items: flex-start;
+	gap: 0.5rem;
+	min-width: 0;
+	margin: 0;
+	padding: 0;
 	font-size: var(--fs-small);
 	font-weight: 500;
 	color: var(--text);
 	opacity: 0.88;
-	line-height: 1.65;
+	line-height: 1.6;
 }
 
 .project-image {
@@ -324,6 +349,7 @@
 
 .project-card .project-points {
 	margin-top: var(--space-3);
+	margin-bottom: 0;
 }
 
 /* Professional + personal projects: shared copy, bullets, image ring, dividers */
@@ -341,11 +367,17 @@
 	margin-bottom: var(--space-4);
 }
 
+#projects .project-card > p.muted:has(+ ul.project-points),
+#personal-projects .project-card > p.muted:has(+ ul.project-points) {
+	margin-bottom: 0;
+}
+
 #projects .project-card .project-points li,
 #personal-projects .project-card .project-points li {
 	font-weight: 300;
 	color: #000;
 	opacity: 1;
+	overflow-wrap: break-word;
 }
 
 #projects .project-card .project-points li::before,
@@ -355,7 +387,7 @@
 }
 
 .project-card .tags {
-	margin-top: var(--space-3);
+	margin-top: var(--space-4);
 	justify-content: flex-start;
 }
 

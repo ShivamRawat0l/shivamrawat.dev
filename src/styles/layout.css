@@ -143,6 +143,14 @@
 		box-sizing: border-box;
 	}
 
+	/* Full width of the strip; no max-width / gutter so title aligns with strip edges (safe area only). */
+	.section-header-inner {
+		max-width: none;
+		width: 100%;
+		margin-inline: 0;
+		padding-inline: env(safe-area-inset-left, 0px) env(safe-area-inset-right, 0px);
+	}
+
 	.section-header h2 {
 		margin: 0;
 	}
