@@ -75,7 +75,7 @@ export function HeroSection({ links }: HeroSectionProps) {
 							transition={{ type: 'spring', stiffness: 260, damping: 18 }}>
 							<img
 								className="hero-image"
-								src="https://github.com/ShivamRawat0l.png"
+								src="/profile.webp"
 								alt="Shivam Rawat"
 							/>
 						</motion.div>
