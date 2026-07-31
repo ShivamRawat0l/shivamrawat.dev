@@ -1,48 +1,78 @@
-import { FaGithub } from 'react-icons/fa';
+import { useState } from 'react';
+import { FaExternalLinkAlt, FaGithub, FaYoutube } from 'react-icons/fa';
+import { SiNpm } from 'react-icons/si';
+import type { IconType } from 'react-icons';
 import { Section } from '../layout/Section';
-import type { Project } from '../../types/portfolio';
+import type { Project, ProjectLink } from '../../types/portfolio';
 import { getTechIcon } from '../../utils/techIcons';
 
 type PersonalProjectsSectionProps = {
 	items: Project[];
 };
 
+const linkIcons: Record<ProjectLink['label'], IconType> = {
+	GitHub: FaGithub,
+	npm: SiNpm,
+	YouTube: FaYoutube,
+	Website: FaExternalLinkAlt,
+};
+
+const PREVIEW_COUNT = 6;
+
 export function PersonalProjectsSection({ items }: PersonalProjectsSectionProps) {
+	const [expanded, setExpanded] = useState(false);
+	const visible = expanded ? items : items.slice(0, PREVIEW_COUNT);
+
 	return (
-		<Section id="personal-projects" title="Personal Projects" subtitle="Side projects and libraries focused on experimentation and developer tools.">
-			<div className="stack-grid stack-grid--single">
-				{items.map((item) => (
-					<article key={item.title} className="project-card">
-						<h3>✦ {item.title}</h3>
-						<p className="muted">◆ {item.description}</p>
-						{item.points?.length ? (
-							<ul className="symbol-list project-points">
-								{item.points.map((point) => (
-									<li key={point}>{point}</li>
-								))}
-							</ul>
-						) : null}
+		<Section
+			id="projects"
+			index="03"
+			title="Side projects"
+			subtitle="Libraries, tools and experiments I build outside client work.">
+			<div className="grid-3">
+				{visible.map((item) => (
+					<article key={item.title} className="card">
+						<h3>{item.title}</h3>
+						<p>{item.description}</p>
 						<div className="tags">
 							{item.stack.map((stack) => {
 								const Icon = getTechIcon(stack);
 								return (
 									<span key={stack} className="tag">
 										<Icon aria-hidden="true" />
-										<span>{stack}</span>
+										{stack}
 									</span>
 								);
 							})}
 						</div>
-						{item.image ? <img className="project-image" src={item.image} alt={`${item.title} visual`} /> : null}
 						{item.links?.length ? (
-							<a className="project-link" href={item.links[0].url} target="_blank" rel="noreferrer">
-								<FaGithub />
-								<span>◆ View GitHub Project</span>
-							</a>
+							<div className="card-links">
+								{item.links.map((link) => {
+									const Icon = linkIcons[link.label];
+									return (
+										<a
+											key={link.label}
+											className="card-link"
+											href={link.url}
+											target="_blank"
+											rel="noreferrer">
+											<Icon aria-hidden="true" />
+											{link.label}
+										</a>
+									);
+								})}
+							</div>
 						) : null}
 					</article>
 				))}
 			</div>
+			{items.length > PREVIEW_COUNT ? (
+				<div className="section-more">
+					<button type="button" className="btn" onClick={() => setExpanded((value) => !value)}>
+						{expanded ? 'Show fewer' : `Show all ${items.length} projects`}
+					</button>
+				</div>
+			) : null}
 		</Section>
 	);
 }

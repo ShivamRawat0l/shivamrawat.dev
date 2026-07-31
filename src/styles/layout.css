@@ -1,157 +1,201 @@
 .app-shell {
-	padding: 0 0 var(--section-pad-y);
+	min-height: 100dvh;
+	display: flex;
+	flex-direction: column;
 }
 
 .container {
 	width: 100%;
 	max-width: var(--max-width);
 	margin-inline: auto;
-	padding-left: max(var(--page-gutter), env(safe-area-inset-left, 0px));
-	padding-right: max(var(--page-gutter), env(safe-area-inset-right, 0px));
-	box-sizing: border-box;
-	display: grid;
-	gap: var(--section-gap);
-	padding-block-start: 0;
+	padding-inline: max(var(--page-gutter), env(safe-area-inset-left, 0px)) max(var(--page-gutter), env(safe-area-inset-right, 0px));
 }
 
-.page-section {
-	min-height: 100vh;
-	min-height: 100dvh;
+/* ---------- Nav ---------- */
+
+.nav {
+	position: sticky;
+	top: 0;
+	z-index: 40;
+	background: var(--nav-bg);
+	backdrop-filter: saturate(160%) blur(12px);
+	-webkit-backdrop-filter: saturate(160%) blur(12px);
+	border-bottom: 1px solid transparent;
+	transition: border-color 200ms ease;
+}
+
+.nav[data-scrolled='true'] {
+	border-bottom-color: var(--border);
+}
+
+.nav-inner {
+	height: var(--nav-height);
 	display: flex;
-	flex-direction: column;
-	align-items: stretch;
-	justify-content: flex-start;
-	padding: 0 0 var(--section-pad-y);
+	align-items: center;
+	gap: var(--space-4);
 }
 
-.page-section-hero {
-	padding-top: 0;
-	min-height: 100vh;
-	min-height: 100dvh;
+.nav-brand {
+	font-weight: 650;
+	letter-spacing: -0.02em;
+	font-size: var(--fs-sm);
+	white-space: nowrap;
 }
 
-.scroll-progress {
-	position: fixed;
-	left: 0;
-	right: 0;
-	bottom: env(safe-area-inset-bottom, 0px);
-	top: auto;
-	height: 4px;
-	background: var(--text);
-	transform-origin: 0 50%;
-	z-index: 50;
+.nav-brand span {
+	color: var(--accent);
+}
+
+.nav-links {
+	display: flex;
+	align-items: center;
+	gap: var(--space-1);
+	margin-inline: auto;
+}
+
+.nav-link {
+	padding: var(--space-1) var(--space-3);
+	border-radius: var(--radius-full);
+	font-size: var(--fs-sm);
+	color: var(--text-muted);
+	transition: color 150ms ease, background-color 150ms ease;
+}
+
+.nav-link:hover {
+	color: var(--text);
+	background: var(--surface-2);
+}
+
+.nav-link[aria-current='true'] {
+	color: var(--text);
+	background: var(--surface-2);
+	font-weight: 550;
+}
+
+.nav-actions {
+	display: flex;
+	align-items: center;
+	gap: var(--space-2);
+	margin-left: auto;
+}
+
+.nav-links + .nav-actions {
+	margin-left: 0;
+}
+
+.theme-toggle {
+	display: grid;
+	place-items: center;
+	width: 2rem;
+	height: 2rem;
+	border-radius: var(--radius-full);
+	border: 1px solid var(--border);
+	color: var(--text-muted);
+	font-size: 0.8rem;
+	transition: color 150ms ease, border-color 150ms ease, background-color 150ms ease;
+}
+
+.theme-toggle:hover {
+	color: var(--text);
+	border-color: var(--border-strong);
+	background: var(--surface-2);
+}
+
+/* Narrow screens: links stay, but scroll horizontally instead of wrapping the bar. */
+@media (max-width: 720px) {
+	.nav-inner {
+		gap: var(--space-2);
+	}
+
+	.nav-links {
+		margin-inline: 0;
+		overflow-x: auto;
+		scrollbar-width: none;
+		-ms-overflow-style: none;
+		-webkit-mask-image: linear-gradient(90deg, #000 85%, transparent);
+		mask-image: linear-gradient(90deg, #000 85%, transparent);
+	}
+
+	.nav-links::-webkit-scrollbar {
+		display: none;
+	}
+
+	.nav-link {
+		padding-inline: var(--space-2);
+		white-space: nowrap;
+	}
+}
+
+@media (max-width: 520px) {
+	.nav-brand {
+		display: none;
+	}
+
+	.nav-links {
+		-webkit-mask-image: none;
+		mask-image: none;
+	}
+}
+
+/* ---------- Sections ---------- */
+
+main {
+	flex: 1;
 }
 
 .section {
-	display: grid;
-	gap: var(--section-gap);
-	padding-bottom: 0;
-	width: 100%;
-	min-width: 0;
+	padding-block: var(--section-gap) 0;
+	scroll-margin-top: calc(var(--nav-height) + 1rem);
+}
+
+.section:last-of-type {
+	padding-bottom: var(--section-gap);
 }
 
 .section-header {
-	position: sticky;
-	top: 0;
-	z-index: 4;
-	overflow: hidden;
-	overflow-wrap: break-word;
-	box-sizing: border-box;
-	width: 100dvw;
-	max-width: 100dvw;
-	margin-top: 0;
-	margin-bottom: var(--space-5);
-	margin-inline: calc(50% - 50dvw);
-	padding-block: var(--space-4);
-	padding-inline: 0;
-	background:
-		repeating-linear-gradient(135deg, rgba(255, 243, 230, 0.08) 0 2px, transparent 2px 6px),
-		linear-gradient(180deg, color-mix(in srgb, var(--text) 94%, #000), var(--text));
-	color: var(--bg);
-	border: 0;
-	border-radius: 0;
-	box-shadow: 0 1px 0 var(--divider);
-}
-
-/* Same horizontal column as `main.container` so titles line up with body copy (e.g. project names). */
-.section-header-inner {
-	width: 100%;
-	max-width: var(--max-width);
-	margin-inline: auto;
-	box-sizing: border-box;
-	padding-inline: max(var(--page-gutter), env(safe-area-inset-left, 0px)) max(var(--page-gutter), env(safe-area-inset-right, 0px));
 	display: grid;
 	gap: var(--space-2);
-	justify-items: start;
-	text-align: start;
+	margin-bottom: var(--space-6);
+	padding-bottom: var(--space-4);
+	border-bottom: 1px solid var(--border);
 }
 
-.section-header h2 {
-	color: var(--bg);
-	margin: 0;
-	font-size: var(--fs-h2);
-	line-height: 1.12;
-}
-
-.section-header-subtitle,
-.section-header p.section-header-subtitle {
-	color: var(--bg);
-	opacity: 0.88;
-	margin: 0;
-	max-height: none;
-}
-
-.stack-grid {
-	display: grid;
-	gap: var(--section-gap);
-}
-
-.row-between {
+.section-eyebrow {
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
-	flex-wrap: wrap;
 	gap: var(--space-2);
 }
 
-@media (min-width: 840px) {
-	.stack-grid {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-	}
-
-	/* Professional / personal projects: one card per row */
-	.stack-grid--single {
-		grid-template-columns: minmax(0, 1fr);
-	}
+.section-eyebrow::after {
+	content: '';
+	flex: 1;
+	height: 1px;
+	background: linear-gradient(90deg, var(--border-strong), transparent);
 }
 
-/* Full-bleed strip: desktop / tablet */
-@supports not (width: 100dvw) {
-	.section-header {
-		width: 100vw;
-		max-width: 100vw;
-		margin-inline: calc(50% - 50vw);
-	}
+.section-header p {
+	color: var(--text-muted);
+	font-size: var(--fs-sm);
+	max-width: 46rem;
 }
 
-/* Mobile: same full-viewport strip as desktop (break out of main column) */
-@media (max-width: 860px) {
-	.section-header {
-		width: 100dvw;
-		max-width: 100dvw;
-		margin-inline: calc(50% - 50dvw);
-		box-sizing: border-box;
-	}
+/* ---------- Grids ---------- */
 
-	/* Full width of the strip; no max-width / gutter so title aligns with strip edges (safe area only). */
-	.section-header-inner {
-		max-width: none;
-		width: 100%;
-		margin-inline: 0;
-		padding-inline: env(safe-area-inset-left, 0px) env(safe-area-inset-right, 0px);
-	}
+.grid-2 {
+	display: grid;
+	gap: var(--space-4);
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+}
 
-	.section-header h2 {
-		margin: 0;
-	}
+.grid-3 {
+	display: grid;
+	gap: var(--space-4);
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, 16.5rem), 1fr));
+}
+
+.row {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: var(--space-2);
 }

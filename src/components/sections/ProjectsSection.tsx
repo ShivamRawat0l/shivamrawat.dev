@@ -1,4 +1,4 @@
-import { FaGithub } from 'react-icons/fa';
+import { FaChevronRight } from 'react-icons/fa';
 import { Section } from '../layout/Section';
 import type { Project } from '../../types/portfolio';
 import { getTechIcon } from '../../utils/techIcons';
@@ -9,36 +9,41 @@ type ProjectsSectionProps = {
 
 export function ProjectsSection({ items }: ProjectsSectionProps) {
 	return (
-		<Section id="projects" title="Professional Projects" subtitle="Impact-driven builds shipped for products and users at scale.">
-			<div className="stack-grid stack-grid--single">
+		<Section
+			id="work"
+			index="02"
+			title="Client work"
+			subtitle="Products shipped at Mutual Mobile. Open a card for the delivery details.">
+			<div className="grid-2">
 				{items.map((item) => (
-					<article key={item.title} className="project-card">
-						<h3>✦ {item.title}</h3>
-						<p className="muted">◆ {item.description}</p>
-						{item.points?.length ? (
-							<ul className="symbol-list project-points">
-								{item.points.map((point) => (
-									<li key={point}>{point}</li>
-								))}
-							</ul>
-						) : null}
+					<article key={item.title} className="card">
+						<div className="card-title">
+							<h3>{item.title}</h3>
+						</div>
+						<p>{item.description}</p>
 						<div className="tags">
 							{item.stack.map((stack) => {
 								const Icon = getTechIcon(stack);
 								return (
 									<span key={stack} className="tag">
 										<Icon aria-hidden="true" />
-										<span>{stack}</span>
+										{stack}
 									</span>
 								);
 							})}
 						</div>
-						{item.image ? <img className="project-image" src={item.image} alt={`${item.title} visual`} /> : null}
-						{item.links?.length ? (
-							<a className="project-link" href={item.links[0].url} target="_blank" rel="noreferrer">
-								<FaGithub />
-								<span>◆ View GitHub Project</span>
-							</a>
+						{item.points?.length ? (
+							<details className="work-details">
+								<summary>
+									<FaChevronRight aria-hidden="true" />
+									Highlights
+								</summary>
+								<ul className="bullets">
+									{item.points.map((point) => (
+										<li key={point}>{point}</li>
+									))}
+								</ul>
+							</details>
 						) : null}
 					</article>
 				))}

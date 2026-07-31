@@ -31,3 +31,13 @@ export type SocialLink = {
     label: string;
     url: string;
 };
+
+export type BlogPost = {
+    title: string;
+    summary: string;
+    /** ISO date, e.g. '2026-02-14'. */
+    date: string;
+    url: string;
+    readingTime?: string;
+    tags?: string[];
+};

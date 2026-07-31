@@ -1,29 +1,89 @@
+/* Warm-paper light theme + warm-charcoal dark theme.
+   `data-theme` is set on <html> by the inline script in index.html, so only
+   the dark overrides need to live in a selector block. */
 :root {
-	--bg: #fff3e6;
+	color-scheme: light;
+
+	--bg: #faf7f2;
+	--bg-sunken: #f2ece3;
 	--surface: #ffffff;
-	--surface-soft: #fff8ef;
-	--text: #381932;
-	--text-muted: #6f4f67;
-	--border: #e2cfbc;
-	/* Rules between blocks + card strokes (same as Education & Contact) */
-	--divider: var(--border);
-	--radius: 16px;
-	--radius-sm: 10px;
-	--shadow: 0 10px 24px rgba(56, 25, 50, 0.08);
-	--max-width: 1024px;
-	/* Layout: one gutter scale for horizontal rhythm + vertical section rhythm */
-	--page-gutter: clamp(1rem, 4.5vw, 1.75rem);
-	--section-gap: clamp(1.25rem, 3.5vw, 1.5rem);
-	--section-pad-y: clamp(1.5rem, 4vw, 2rem);
-	--space-1: 8px;
-	--space-2: 12px;
-	--space-3: 16px;
-	--space-4: 20px;
-	--space-5: 24px;
-	--space-6: 32px;
-	--fs-body: 1rem;
-	--fs-small: 0.95rem;
-	--fs-title: clamp(2rem, 7vw, 5rem);
-	--fs-h2: 1.95rem;
-	--fs-h3: 1.25rem;
+	--surface-2: #f5f0e8;
+	--surface-hover: #fbf8f3;
+
+	--text: #191412;
+	--text-muted: #6b615a;
+	--text-faint: #968b82;
+
+	--border: #e7dfd4;
+	--border-strong: #d5c9b9;
+
+	--accent: #b5411d;
+	--accent-strong: #93300f;
+	--accent-soft: rgba(181, 65, 29, 0.09);
+	--accent-line: rgba(181, 65, 29, 0.28);
+	--on-accent: #fffaf6;
+
+	--shadow-sm: 0 1px 2px rgba(25, 20, 18, 0.05);
+	--shadow: 0 10px 30px -14px rgba(25, 20, 18, 0.22);
+	--nav-bg: rgba(250, 247, 242, 0.82);
+
+	/* Type */
+	--font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+	--font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+	--fs-xs: 0.75rem;
+	--fs-sm: 0.875rem;
+	--fs-base: 1rem;
+	--fs-lg: 1.0625rem;
+	--fs-h3: 1.0625rem;
+	--fs-h2: clamp(1.5rem, 3vw, 1.875rem);
+	--fs-display: clamp(2.5rem, 8vw, 4.25rem);
+
+	/* Space */
+	--space-1: 0.25rem;
+	--space-2: 0.5rem;
+	--space-3: 0.75rem;
+	--space-4: 1rem;
+	--space-5: 1.5rem;
+	--space-6: 2rem;
+	--space-7: 3rem;
+	--space-8: 4.5rem;
+
+	/* Layout */
+	--max-width: 62rem;
+	--page-gutter: clamp(1.125rem, 5vw, 2rem);
+	--section-gap: clamp(3.5rem, 9vw, 5.5rem);
+	--nav-height: 3.5rem;
+
+	--radius-sm: 6px;
+	--radius: 10px;
+	--radius-lg: 16px;
+	--radius-full: 999px;
+}
+
+[data-theme='dark'] {
+	color-scheme: dark;
+
+	--bg: #131110;
+	--bg-sunken: #0e0d0c;
+	--surface: #1c1918;
+	--surface-2: #232019;
+	--surface-hover: #232020;
+
+	--text: #f3eee9;
+	--text-muted: #a89e96;
+	--text-faint: #7d736c;
+
+	--border: #2e2926;
+	--border-strong: #423b36;
+
+	--accent: #ff8a5c;
+	--accent-strong: #ffa480;
+	--accent-soft: rgba(255, 138, 92, 0.12);
+	--accent-line: rgba(255, 138, 92, 0.32);
+	--on-accent: #1a0e08;
+
+	--shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+	--shadow: 0 12px 32px -16px rgba(0, 0, 0, 0.7);
+	--nav-bg: rgba(19, 17, 16, 0.82);
 }

@@ -1,4 +1,23 @@
-import type { Education, Experience, Project, SocialLink } from '../types/portfolio';
+import type { BlogPost, Education, Experience, Project, SocialLink } from '../types/portfolio';
+
+/** First day at Mutual Mobile (internship). Used to keep the years count current. */
+const CAREER_START = new Date('2021-08-01');
+
+export const yearsOfExperience = Math.floor((Date.now() - CAREER_START.getTime()) / 31_557_600_000);
+
+export const profile = {
+    name: 'Shivam Rawat',
+    role: 'React Native & iOS Engineer',
+    location: 'Dehradun, India',
+    availability: 'Open to interesting mobile work',
+    summary:
+        'I build mobile products that stay fast and predictable as they grow — server-driven UI, real-time messaging and video, and native modules that other teams can pick up without ceremony.',
+    email: 'shivamrawat2806@gmail.com',
+    phone: '+91 89792 90927',
+    github: 'https://github.com/ShivamRawat0l/',
+    githubHandle: 'ShivamRawat0l',
+    resume: 'Resume.pdf',
+};
 
 export const socialLinks: SocialLink[] = [
     { label: 'GitHub', url: 'https://github.com/ShivamRawat0l/' },
@@ -221,4 +240,10 @@ export const education: Education[] = [
     { level: 'Class X', school: 'Kendriya Vidyalaya No.2, Dehradun', score: '9.4 CGPA', year: '2015' },
 ];
 
-export const skills = ['JavaScript', 'TypeScript', 'React Native', 'React.js', 'Swift', 'Node.js', 'GraphQL', 'Twilio', 'Socket.IO', 'Xcode'];
+export const skills = ['JavaScript', 'TypeScript', 'React Native', 'React.js', 'Swift', 'SwiftUI', 'Kotlin', 'Node.js', 'GraphQL', 'Socket.IO', 'Twilio', 'Xcode'];
+
+/**
+ * Empty for now — the blog section renders an invitation to the Medium archive
+ * until the first post lands here.
+ */
+export const blogPosts: BlogPost[] = [];

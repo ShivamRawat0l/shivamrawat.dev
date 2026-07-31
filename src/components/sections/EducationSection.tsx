@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { FaEnvelope, FaGithub, FaPhone } from 'react-icons/fa';
 import { Section } from '../layout/Section';
+import { profile } from '../../data/portfolio';
 import type { Education } from '../../types/portfolio';
 
 type EducationSectionProps = {
@@ -7,33 +8,40 @@ type EducationSectionProps = {
 };
 
 export function EducationSection({ items }: EducationSectionProps) {
-	const [active, setActive] = useState<string | null>(null);
-
 	return (
-		<Section id="education" title="Education" subtitle="Academic foundation in engineering, built on strong fundamentals and consistent performance.">
-			<div className="education-grid">
-				{items.map((item) => {
-					const key = `${item.level}-${item.year}`;
-					const isActive = active === key;
-					return (
-						<button
-							type="button"
-							key={key}
-							className="edu-card repel-card"
-							onClick={() => setActive(isActive ? null : key)}>
-							<div className={`edu-inner ${isActive ? 'is-rotated' : ''}`}>
-								<div className="edu-face">
-									<p>◆ {item.level}</p>
-									<h3>✦ {item.school}</h3>
-								</div>
-								<div className="edu-back">
-									<p>◆ Score: {item.score}</p>
-									<p>◆ Year: {item.year}</p>
-								</div>
-							</div>
-						</button>
-					);
-				})}
+		<Section id="about" index="05" title="Education & contact" subtitle="Academic background, and the fastest ways to reach me.">
+			<div className="edu-list">
+				{items.map((item) => (
+					<article className="edu-row" key={`${item.level}-${item.year}`}>
+						<span className="label">{item.year}</span>
+						<div>
+							<h3>{item.level}</h3>
+							<p className="edu-school">{item.school}</p>
+						</div>
+						<span className="edu-score">{item.score}</span>
+					</article>
+				))}
+			</div>
+
+			<div className="contact">
+				<div>
+					<h2>Let's build something.</h2>
+					<p>Open to mobile engineering work — React Native, iOS, or the native glue between them.</p>
+				</div>
+				<div className="contact-actions">
+					<a className="btn btn--primary" href={`mailto:${profile.email}`}>
+						<FaEnvelope aria-hidden="true" />
+						{profile.email}
+					</a>
+					<a className="btn" href={`tel:${profile.phone.replace(/\s/g, '')}`}>
+						<FaPhone aria-hidden="true" />
+						{profile.phone}
+					</a>
+					<a className="btn" href={profile.github} target="_blank" rel="noreferrer">
+						<FaGithub aria-hidden="true" />
+						{profile.githubHandle}
+					</a>
+				</div>
 			</div>
 		</Section>
 	);

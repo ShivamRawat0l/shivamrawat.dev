@@ -6,27 +6,26 @@ type ExperienceSectionProps = {
 };
 
 export function ExperienceSection({ items }: ExperienceSectionProps) {
-	const lastRowStart = Math.floor((items.length - 1) / 2) * 2;
 	return (
-		<Section id="experience" title="Experience" subtitle="Senior-level delivery across internships and full-time ownership.">
-			<div className="stack-grid">
-				{items.map((item, index) => (
-					<article
-						className={`experience-item${index >= lastRowStart ? ' experience-item--last-row' : ''}`}
-						key={`${item.company}-${item.role}`}>
-						<div className="row-between">
-							<h3 className="experience-role">{item.role}</h3>
-							<span className="pill">◆ {item.duration}</span>
+		<Section id="experience" index="01" title="Experience" subtitle="Where I've worked and what I owned.">
+			<ol className="timeline">
+				{items.map((item) => (
+					<li className="timeline-item" key={`${item.company}-${item.role}`}>
+						<div className="timeline-when">
+							<span className="label">{item.duration}</span>
 						</div>
-						<p className="experience-company">{item.company}</p>
-						<ul className="symbol-list">
-							{item.points.map((point) => (
-								<li key={point}>{point}</li>
-							))}
-						</ul>
-					</article>
+						<div className="timeline-body">
+							<h3>{item.role}</h3>
+							<p className="timeline-company">{item.company}</p>
+							<ul className="bullets">
+								{item.points.map((point) => (
+									<li key={point}>{point}</li>
+								))}
+							</ul>
+						</div>
+					</li>
 				))}
-			</div>
+			</ol>
 		</Section>
 	);
 }
